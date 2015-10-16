@@ -1,9 +1,14 @@
 module.exports = function(grunt) {
     grunt.initConfig({
+		execute: {
+			target: {
+				src:['index.js']
+			}
+		},
         browserSync: {
             dev: {
                 options: {
-                    server: "./app",
+                    server: false,
                     background: true
                 }
             }
@@ -15,7 +20,7 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['src/**/*.js'],
-                tasks: ['browserify', 'karma', 'eslint', 'bsReload:js']
+                tasks: ['browserify', 'eslint', 'bsReload:js']
             },
             test: {
                 files: ['test/**/*.tests.js'],
@@ -23,7 +28,11 @@ module.exports = function(grunt) {
             },
             options: {
                 spawn: false
-            }
+            },
+			server: {
+				files: ['index.js'],
+				tasks: ['node index.js']
+			}
         },
         bsReload: {
             all: {
@@ -60,6 +69,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-browser-sync');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-karma');
+	grunt.loadNpmTasks('grunt-execute');
     //grunt.registerTask('bsInit', function() {
     //	var done = this.async();
     //	browserSync({
@@ -72,6 +82,6 @@ module.exports = function(grunt) {
     //grunt.registerTask('bsReload', function() {
     //	browserSync.reload();
     //});
-    grunt.registerTask('default', ['browserify', 'browserSync', 'watch']);
+    grunt.registerTask('default', ['browserify', 'browserSync', 'watch','execute']);
 	grunt.registerTask('test', ['karma']);
 }
